@@ -14,7 +14,7 @@ import java.io.PrintStream;
 import java.io.Reader;
 import java.util.StringTokenizer;
 
-public class NostorySkeleton {
+public class Nostory {
 	public static void main(final String[] args) throws IOException {
 		var scanner = new MyScanner(new FileReader("nostory.in"));
 
