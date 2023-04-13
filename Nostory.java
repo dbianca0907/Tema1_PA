@@ -12,6 +12,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Nostory {
@@ -42,11 +44,51 @@ public class Nostory {
 	}
 
 	private static long solveTask1(int[] a, int[] b) {
-		return 0L;
+		int N = 2 * a.length;
+		int[] res = new int[N];
+		System.arraycopy(a, 0, res, 0, a.length);
+		System.arraycopy(b, 0, res, a.length, b.length);
+
+		Arrays.sort(res);
+		long sum = 0;
+
+		for (int i = N - 1; i >= N / 2; i--) {
+			sum += res[i];
+		}
+		return sum;
 	}
 
 	private static long solveTask2(int[] a, int[] b, int moves) {
-		return 0L;
+		int N = a.length;
+		long sum = 0;
+		int[] maxArr = new int[N]; // construiesc un vector care retine val maxime ale perechilor
+		for (int i = 0; i < N; i++) {
+			maxArr[i] = Math.max(a[i], b[i]);
+		}
+
+		Arrays.sort(maxArr);
+
+		int[] allNumbers = new int[2 * N]; // vectorul care o sa contina sirurile concatenate ordonate
+		System.arraycopy(a, 0, allNumbers, 0, N);
+		System.arraycopy(b, 0, allNumbers, N, N);
+		Arrays.sort(allNumbers);
+		int j = 0; // de unde incep sa fie schimbate pozitiile minime
+		int cnt = N - 1;
+
+		for (int i = 2 * N - 1; i >= 0 && moves > 0 && cnt >= j; i--) {
+			if (allNumbers[i] != maxArr[cnt]) {
+				maxArr[j] = allNumbers[i];
+				moves--;
+				j++;
+			} else {
+				cnt--;
+			}
+		}
+
+		for (int i = 0; i < N; i++) {
+			sum += maxArr[i];
+		}
+		return sum;
 	}
 
 	/**
