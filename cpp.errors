@@ -1,12 +1,3 @@
-./skel/sushi/sushi-skeleton.cpp:8:  Missing username in TODO; it should look like "// TODO(my_username): Stuff."  [readability/todo] [2]
-./skel/sushi/sushi-skeleton.cpp:13:  Missing username in TODO; it should look like "// TODO(my_username): Stuff."  [readability/todo] [2]
-./skel/sushi/sushi-skeleton.cpp:18:  Missing username in TODO; it should look like "// TODO(my_username): Stuff."  [readability/todo] [2]
-./skel/semnale/semnale-skeleton.cpp:8:  Missing username in TODO; it should look like "// TODO(my_username): Stuff."  [readability/todo] [2]
-./skel/semnale/semnale-skeleton.cpp:8:  Should have a space between // and comment  [whitespace/comments] [4]
-./skel/semnale/semnale-skeleton.cpp:13:  Missing username in TODO; it should look like "// TODO(my_username): Stuff."  [readability/todo] [2]
-./skel/semnale/semnale-skeleton.cpp:13:  Should have a space between // and comment  [whitespace/comments] [4]
-./skel/semnale/semnale-skeleton.cpp:18:  { should almost always be at the end of the previous line  [whitespace/braces] [4]
-./skel/semnale/semnale-skeleton.cpp:26:  Missing space before ( in switch(  [whitespace/parens] [5]
 ./out/test/skel/sushi/sushi-skeleton.cpp:8:  Missing username in TODO; it should look like "// TODO(my_username): Stuff."  [readability/todo] [2]
 ./out/test/skel/sushi/sushi-skeleton.cpp:13:  Missing username in TODO; it should look like "// TODO(my_username): Stuff."  [readability/todo] [2]
 ./out/test/skel/sushi/sushi-skeleton.cpp:18:  Missing username in TODO; it should look like "// TODO(my_username): Stuff."  [readability/todo] [2]
@@ -25,8 +16,6 @@
 ./out/production/skel/sushi-skeleton.cpp:8:  Missing username in TODO; it should look like "// TODO(my_username): Stuff."  [readability/todo] [2]
 ./out/production/skel/sushi-skeleton.cpp:13:  Missing username in TODO; it should look like "// TODO(my_username): Stuff."  [readability/todo] [2]
 ./out/production/skel/sushi-skeleton.cpp:18:  Missing username in TODO; it should look like "// TODO(my_username): Stuff."  [readability/todo] [2]
-Done processing ./skel/sushi/sushi-skeleton.cpp
-Done processing ./skel/semnale/semnale-skeleton.cpp
 Done processing ./out/test/skel/sushi/sushi-skeleton.cpp
 Done processing ./out/test/skel/nostory/nostory-skeleton.cpp
 Done processing ./out/test/skel/semnale/semnale-skeleton.cpp
@@ -35,4 +24,4 @@ Done processing ./out/production/skel/nostory-skeleton.cpp
 Done processing ./out/production/skel/sushi-skeleton.cpp
 Done processing ./out/production/Tema1_PA/_utils/verif.cpp
 Done processing ./_utils/verif.cpp
-Total errors found: 27
+Total errors found: 18
