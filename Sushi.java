@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 class Sushi {
@@ -14,7 +15,24 @@ class Sushi {
 
 	static int task1() {
 		// TODO solve task 1
-		return 0;
+		int[] sum_grades = new int[m];
+
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				sum_grades[i] += grades[i][j];
+			}
+		}
+
+		int[][] dp = new int[m + 1][n * x + 1];
+		for (int i = 1; i <= m; i++) {
+			for (int j = prices[i]; j <= n * x; j++) {
+				dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - prices[i]] + sum_grades[i]);
+				if (j >= prices[i]) { // nu am mai comandat un platou de tip i pana atunci
+					dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - prices[i]] + sum_grades[i]);
+				}
+			}
+		}
+		return dp[n][n * x];
 	}
 
 	static int task2() {

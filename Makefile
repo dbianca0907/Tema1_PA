@@ -2,14 +2,15 @@
 
 .PHONY: build clean
 
-build: Nostory.class Feribot.class Semnale.class
+build: Nostory.class Feribot.class Semnale.class Sushi.class
 
 run-p1:
 	java Feribot
 
 run-p2:
 	java Nostory
-
+run-p3:
+	java Sushi
 run-p4:
 	java Semnale
 
@@ -18,6 +19,9 @@ Feribot.class: Feribot.java
 	javac $^
 
 Nostory.class: Nostory.java
+	javac $^
+
+Sushi.class: Sushi.java
 	javac $^
 
 Semnale.class: Semnale.java
