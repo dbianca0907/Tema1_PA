@@ -11,7 +11,6 @@ class Semnale {
 	Semnale(){}
 
 	static int type1() {
-		//TODO Compute the number of type 1 signals.
 		int n = x + y; //nr total de biti
 		int[][] a_1 = new int[n + 1][n + 1]; // nr de siruri corecte care se termina in 0
 		int[][] b_1 = new int[n + 1][n + 1]; // nr de siruri corecte care se termina in 1

@@ -8,15 +8,26 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class Feribot {
-    public static int num_intervals(ArrayList<Long> cars, int N, long total) {
+
+    /**
+     * Functie care numara cate intervale se pot forma din greutatile masinilor,
+     * fara a depasi greutatea maxima data.
+     * @param cars lista care contine greutatile masinilor
+     * @param N numarul de masini
+     * @param maxim greutatea maxima care poate fi pe un feribot
+     * @return numarul de interbale (feriboturi)
+     */
+    public static int num_intervals(ArrayList<Long> cars, int N, long maxim) {
         long indx = 0;
         int j = 0;
-        long sum = 0;
+        long sum;
         int nr = 0;
 
         while (indx < N) {
             sum = 0;
-            while (j < N && sum + cars.get(j) <= total) {
+
+            // Calculez intervalele formate cu suma greutatilor mai mica decat "maxim".
+            while (j < N && sum + cars.get(j) <= maxim) {
                 sum += cars.get(j);
                 j++;
             }
@@ -27,20 +38,38 @@ public class Feribot {
         return nr;
     }
 
-    public static long find_max_cost (ArrayList<Long> cars, int N, int k, long sum) {
+    /**
+     * Functie pentru repartizarea greutatii in mod relativ egal pe feriboturi (de vazut)
+     * si aflarea greutatii maxime de pe feriboturi.
+     * @param cars vectorul cu greutatile masinilor
+     * @param N numarul de masini
+     * @param k numarul de feriboturi
+     * @param sum greutatea maxima care trebuie transportata
+     * @return
+     */
+    public static long find_min_cost (ArrayList<Long> cars, int N, int k, long sum) {
         ArrayList<Long> carsClone;
         carsClone = (ArrayList<Long>) cars.clone();
-        Collections.sort(carsClone);
-        long max = carsClone.get(N - 1);
+        Collections.sort(carsClone); // pastrez intr-un array vectorul cu greutatile masinilor sortate
+        long max = carsClone.get(N - 1); // greutatea maxima unei masini
         long left = max;
         long right = sum;
         long mid;
         long found = -1;
 
+        /* Folosesc binary search ca sa caut greutatea maxima care poate fi pe un foribot
+        tinand cont de repartizarea masinilor pe cele k feriboturi.
+         */
         while (left <= right) {
             mid = (left + right) / 2;
+
+            // Verific cate intervale se formeaza cu valoarea maxima "mid".
             int intervals = num_intervals(cars, N, mid);
-            if (intervals <= k) { // numarul este prea mare
+
+            /* Numarul intervalelor este prea mic fata de cate feriboturi am,
+            inseamna ca numarul "mid" este prea mare.
+             */
+            if (intervals <= k) {
                 right = mid - 1;
                 found = mid;
             } else {
@@ -62,7 +91,7 @@ public class Feribot {
             sum += cars.get(i);
         }
 
-        long max_cost = find_max_cost(cars, N, k, sum);
+        long max_cost = find_min_cost(cars, N, k, sum);
         var printer = new PrintStream("feribot.out");
         printer.println(max_cost);
     }
