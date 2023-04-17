@@ -68,7 +68,8 @@ public class Nostory {
 
 		Arrays.sort(maxArr);
 
-		int[] allNumbers = new int[2 * N]; // vectorul care o sa contina sirurile concatenate ordonate
+		// vectorul care o sa contina sirurile concatenate ordonate
+		int[] allNumbers = new int[2 * N];
 		System.arraycopy(a, 0, allNumbers, 0, N);
 		System.arraycopy(b, 0, allNumbers, N, N);
 		Arrays.sort(allNumbers);

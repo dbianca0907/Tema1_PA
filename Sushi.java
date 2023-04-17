@@ -29,7 +29,8 @@ class Sushi {
 			for (int price = 0; price <= n * x; ++price) {
 				if (price - prices[i] >= 0) {
 					// de explicat
-					dp[i][price] = Math.max(dp[i - 1][price], dp[i - 1][price - prices[i]] + sum_grades[i]);
+					dp[i][price] = Math.max(dp[i - 1][price],
+							dp[i - 1][price - prices[i]] + sum_grades[i]);
 				} else {
 					dp[i][price] = dp[i - 1][price];
 				}
@@ -63,7 +64,7 @@ class Sushi {
 					dp[i][price] = Math.max(dp[i - 1][price],
 							dp[i - 1][price - duplicat_prices[i]] + duplicat_sum[i]);
 				} else {
-					dp[i][price] = dp[i-1][price];
+					dp[i][price] = dp[i - 1][price];
 				}
 			}
 		}
@@ -90,13 +91,14 @@ class Sushi {
 		System.arraycopy(sum_grades, 1, duplicat_sum, m + 1, m);
 
 		for (int i = 1; i <= 2 * m; ++i) {
-			for (int price = 0; price <= n * x; ++price)
-				for (int k = 1; k <= n; k++){
-				if (price - duplicat_prices[i] >= 0) {
-					dp[i][price][k] = Math.max(dp[i - 1][price][k],
-							dp[i - 1][price - duplicat_prices[i]][k - 1] + duplicat_sum[i]);
-				} else {
-					dp[i][price][k] = dp[i-1][price][k];
+			for (int price = 0; price <= n * x; ++price) {
+				for (int k = 1; k <= n; k++) {
+					if (price - duplicat_prices[i] >= 0) {
+						dp[i][price][k] = Math.max(dp[i - 1][price][k],
+								dp[i - 1][price - duplicat_prices[i]][k - 1] + duplicat_sum[i]);
+					} else {
+						dp[i][price][k] = dp[i - 1][price][k];
+					}
 				}
 			}
 		}
@@ -114,7 +116,8 @@ class Sushi {
 			x = sc.nextInt(); // how much each of you is willing to spend
 
 			prices = new int[m + 1]; // prices of each sushi type
-			grades = new int[n + 1][m + 1]; // the grades you and your friends gave to each sushi type
+			// the grades you and your friends gave to each sushi type
+			grades = new int[n + 1][m + 1];
 
 			// price of each sushi
 			for (int i = 1; i <= m; ++i) {

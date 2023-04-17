@@ -39,13 +39,16 @@ class Semnale {
 	}
 
 	static int type2() {
-		 int n = x + y;
-		 int[][] a = new int[n + 1][n + 1]; // nr de siruri corecte care se termina in 0
-		 int[][] b = new int[n + 1][n + 1]; // nr de siruri corecte care se termina in 1
+		int n = x + y;
+		// Nr de siruri corecte care se termina in 0.
+		int[][] a = new int[n + 1][n + 1];
+		// Nr de siruri corecte care se termina in 1.
+		int[][] b = new int[n + 1][n + 1];
 
 		b[1][0] = 1;
 		b[2][0] = 1;
 		a[1][1] = 1;
+
 		if (y > 2 * (x + 1)) {
 			return 0;
 		}

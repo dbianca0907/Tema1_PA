@@ -8,134 +8,133 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class Feribot {
+	/**
+	 * Functie care numara cate intervale se pot forma din greutatile masinilor,
+	 * fara a depasi greutatea maxima data.
+	 *
+	 * @param cars  lista care contine greutatile masinilor
+	 * @param N     numarul de masini
+	 * @param maxim greutatea maxima care poate fi pe un feribot
+	 * @return numarul de intervale (feriboturi)
+	 */
+	public static int num_intervals(ArrayList<Long> cars, int N, long maxim) {
 
-    /**
-     * Functie care numara cate intervale se pot forma din greutatile masinilor,
-     * fara a depasi greutatea maxima data.
-     * @param cars lista care contine greutatile masinilor
-     * @param N numarul de masini
-     * @param maxim greutatea maxima care poate fi pe un feribot
-     * @return numarul de interbale (feriboturi)
-     */
-    public static int num_intervals(ArrayList<Long> cars, int N, long maxim) {
-        long indx = 0;
-        int j = 0;
-        long sum;
-        int nr = 0;
+		long indx = 0;
+		int j = 0;
+		long sum;
+		int nr = 0;
 
-        while (indx < N) {
-            sum = 0;
+		while (indx < N) {
+			sum = 0;
+			// Calculez intervalele formate cu suma greutatilor mai mica decat "maxim".
+			while (j < N && sum + cars.get(j) <= maxim) {
+				sum += cars.get(j);
+				j++;
+			}
+			nr++;
+			indx = j;
+		}
 
-            // Calculez intervalele formate cu suma greutatilor mai mica decat "maxim".
-            while (j < N && sum + cars.get(j) <= maxim) {
-                sum += cars.get(j);
-                j++;
-            }
-            nr++;
-            indx = j;
-        }
+		return nr;
+	}
 
-        return nr;
-    }
+	/**
+	 * Functie pentru repartizarea greutatii in mod relativ egal pe feriboturi (de vazut)
+	 * si aflarea greutatii maxime de pe feriboturi.
+	 *
+	 * @param cars vectorul cu greutatile masinilor
+	 * @param N    numarul de masini
+	 * @param k    numarul de feriboturi
+	 * @param sum  greutatea maxima care trebuie transportata
+	 * @return greutatea minima
+	 */
+	public static long find_min_cost(ArrayList<Long> cars, int N, int k, long sum) {
 
-    /**
-     * Functie pentru repartizarea greutatii in mod relativ egal pe feriboturi (de vazut)
-     * si aflarea greutatii maxime de pe feriboturi.
-     * @param cars vectorul cu greutatile masinilor
-     * @param N numarul de masini
-     * @param k numarul de feriboturi
-     * @param sum greutatea maxima care trebuie transportata
-     * @return
-     */
-    public static long find_min_cost (ArrayList<Long> cars, int N, int k, long sum) {
-        ArrayList<Long> carsClone;
-        carsClone = (ArrayList<Long>) cars.clone();
-        Collections.sort(carsClone); // pastrez intr-un array vectorul cu greutatile masinilor sortate
-        long max = carsClone.get(N - 1); // greutatea maxima unei masini
-        long left = max;
-        long right = sum;
-        long mid;
-        long found = -1;
+		ArrayList<Long> carsClone;
+		carsClone = (ArrayList<Long>) cars.clone();
+		// pastrez intr-un array vectorul cu greutatile masinilor sortate
+		Collections.sort(carsClone);
+		long max = carsClone.get(N - 1); // greutatea maxima unei masini
+		long left = max;
+		long right = sum;
+		long mid;
+		long found = -1;
 
-        /* Folosesc binary search ca sa caut greutatea maxima care poate fi pe un foribot
-        tinand cont de repartizarea masinilor pe cele k feriboturi.
-         */
-        while (left <= right) {
-            mid = (left + right) / 2;
+		while (left <= right) {
+			mid = (left + right) / 2;
 
-            // Verific cate intervale se formeaza cu valoarea maxima "mid".
-            int intervals = num_intervals(cars, N, mid);
+			// Verific cate intervale se formeaza cu valoarea maxima "mid".
+			int intervals = num_intervals(cars, N, mid);
 
-            /* Numarul intervalelor este prea mic fata de cate feriboturi am,
-            inseamna ca numarul "mid" este prea mare.
-             */
-            if (intervals <= k) {
-                right = mid - 1;
-                found = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return found;
-    }
-    public static void main(final String[] args) throws IOException {
-        var scanner = new MyScanner(new FileReader("feribot.in"));
+			// Numarul intervalelor este prea mic fata de cate feriboturi am.
+			// Inseamna ca numarul "mid" este prea mare.
+			if (intervals <= k) {
+				right = mid - 1;
+				found = mid;
+			} else {
+				left = mid + 1;
+			}
+		}
+		return found;
+	}
 
-        int N = scanner.nextInt();
-        int k = scanner.nextInt();
+	public static void main(final String[] args) throws IOException {
+		var scanner = new MyScanner(new FileReader("feribot.in"));
 
-        ArrayList<Long> cars = new ArrayList<>(N + 1);
-        long sum = 0;
-        for (int i = 0; i < N; i++) {
-            cars.add(scanner.nextLong());
-            sum += cars.get(i);
-        }
+		int N = scanner.nextInt();
+		int k = scanner.nextInt();
 
-        long max_cost = find_min_cost(cars, N, k, sum);
-        var printer = new PrintStream("feribot.out");
-        printer.println(max_cost);
-    }
+		ArrayList<Long> cars = new ArrayList<>(N + 1);
+		long sum = 0;
+		for (int i = 0; i < N; i++) {
+			cars.add(scanner.nextLong());
+			sum += cars.get(i);
+		}
 
+		long max_cost = find_min_cost(cars, N, k, sum);
+		var printer = new PrintStream("feribot.out");
+		printer.println(max_cost);
+	}
 
-    private static class MyScanner {
-        private BufferedReader br;
-        private StringTokenizer st;
+	private static class MyScanner {
+		private BufferedReader br;
+		private StringTokenizer st;
 
-        public MyScanner(Reader reader) {
-            br = new BufferedReader(reader);
-        }
+		public MyScanner(Reader reader) {
+			br = new BufferedReader(reader);
+		}
 
-        public String next() {
-            while (st == null || !st.hasMoreElements()) {
-                try {
-                    st = new StringTokenizer(br.readLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return st.nextToken();
-        }
+		public String next() {
+			while (st == null || !st.hasMoreElements()) {
+				try {
+					st = new StringTokenizer(br.readLine());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return st.nextToken();
+		}
 
-        public int nextInt() {
-            return Integer.parseInt(next());
-        }
+		public int nextInt() {
+			return Integer.parseInt(next());
+		}
 
-        public long nextLong() {
-            return Long.parseLong(next());
-        }
+		public long nextLong() {
+			return Long.parseLong(next());
+		}
 
-        public double nextDouble() {
-            return Double.parseDouble(next());
-        }
+		public double nextDouble() {
+			return Double.parseDouble(next());
+		}
 
-        public String nextLine() {
-            String str = "";
-            try {
-                str = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return str;
-        }
-    }
+		public String nextLine() {
+			String str = "";
+			try {
+				str = br.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return str;
+		}
+	}
 }
