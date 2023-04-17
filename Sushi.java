@@ -14,35 +14,93 @@ class Sushi {
 	Sushi(){}
 
 	static int task1() {
-		// TODO solve task 1
-		int[] sum_grades = new int[m];
+		int[] sum_grades = new int[m + 1];
 
-		for (int i = 0; i < m; i++) {
-			for (int j = 0; j < n; j++) {
-				sum_grades[i] += grades[i][j];
+		// Realizez suma notelor pentru fiecare platou, de la fiecare persoana
+		for (int i = 1; i <= m; i++) {
+			for (int j = 1; j <= n; j++) {
+				sum_grades[i] += grades[j][i];
 			}
 		}
 
 		int[][] dp = new int[m + 1][n * x + 1];
-		for (int i = 1; i <= m; i++) {
-			for (int j = prices[i]; j <= n * x; j++) {
-				dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - prices[i]] + sum_grades[i]);
-				if (j >= prices[i]) { // nu am mai comandat un platou de tip i pana atunci
-					dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - prices[i]] + sum_grades[i]);
+		//aplic algoritmul rucsac
+		for (int i = 1; i <= m; ++i) {
+			for (int price = 0; price <= n * x; ++price) {
+				if (price - prices[i] >= 0) {
+					// de explicat
+					dp[i][price] = Math.max(dp[i - 1][price], dp[i - 1][price - prices[i]] + sum_grades[i]);
+				} else {
+					dp[i][price] = dp[i - 1][price];
 				}
 			}
 		}
-		return dp[n][n * x];
+		return dp[m][n * x];
 	}
 
 	static int task2() {
-		// TODO solve task 2
-		return 0;
+		int[] sum_grades = new int[m + 1];
+
+		for (int i = 1; i <= m; i++) {
+			for (int j = 1; j <= n; j++) {
+				sum_grades[i] += grades[j][i];
+			}
+		}
+
+		int[][] dp = new int[2 * m + 1][n * x + 1];
+		int[] duplicat_prices = new int[2 * m + 1];
+		int[] duplicat_sum = new int[2 * m + 1];
+
+		System.arraycopy(prices, 1, duplicat_prices, 1, m);
+		System.arraycopy(prices, 1, duplicat_prices, m + 1, m);
+
+		System.arraycopy(sum_grades, 1, duplicat_sum, 1, m);
+		System.arraycopy(sum_grades, 1, duplicat_sum, m + 1, m);
+
+		for (int i = 1; i <= 2 * m; ++i) {
+			for (int price = 0; price <= n * x; ++price) {
+				if (price - duplicat_prices[i] >= 0) {
+					dp[i][price] = Math.max(dp[i - 1][price],
+							dp[i - 1][price - duplicat_prices[i]] + duplicat_sum[i]);
+				} else {
+					dp[i][price] = dp[i-1][price];
+				}
+			}
+		}
+		return dp[2 * m][n * x];
 	}
 
 	static int task3() {
-		// TODO solve task 3
-		return 0;
+		int[] sum_grades = new int[m + 1];
+
+		for (int i = 1; i <= m; i++) {
+			for (int j = 1; j <= n; j++) {
+				sum_grades[i] += grades[j][i];
+			}
+		}
+
+		int[][][] dp = new int[2 * m + 1][n * x + 1][n + 1];
+		int[] duplicat_prices = new int[2 * m + 1];
+		int[] duplicat_sum = new int[2 * m + 1];
+
+		System.arraycopy(prices, 1, duplicat_prices, 1, m);
+		System.arraycopy(prices, 1, duplicat_prices, m + 1, m);
+
+		System.arraycopy(sum_grades, 1, duplicat_sum, 1, m);
+		System.arraycopy(sum_grades, 1, duplicat_sum, m + 1, m);
+
+		for (int i = 1; i <= 2 * m; ++i) {
+			for (int price = 0; price <= n * x; ++price)
+				for (int k = 1; k <= n; k++){
+				if (price - duplicat_prices[i] >= 0) {
+					dp[i][price][k] = Math.max(dp[i - 1][price][k],
+							dp[i - 1][price - duplicat_prices[i]][k - 1] + duplicat_sum[i]);
+				} else {
+					dp[i][price][k] = dp[i-1][price][k];
+				}
+			}
+		}
+		return dp[2 * m][n * x][n];
 	}
 
 	public static void main(String[] args) {
@@ -55,17 +113,17 @@ class Sushi {
 			m = sc.nextInt(); // number of sushi types
 			x = sc.nextInt(); // how much each of you is willing to spend
 
-			prices = new int[m]; // prices of each sushi type
-			grades = new int[n][m]; // the grades you and your friends gave to each sushi type
+			prices = new int[m + 1]; // prices of each sushi type
+			grades = new int[n + 1][m + 1]; // the grades you and your friends gave to each sushi type
 
 			// price of each sushi
-			for (int i = 0; i < m; ++i) {
+			for (int i = 1; i <= m; ++i) {
 				prices[i] = sc.nextInt();
 			}
 
 			// each friends rankings of sushi types
-			for (int i = 0; i < n; ++i) {
-				for (int j = 0; j < m; ++j) {
+			for (int i = 1; i <= n; ++i) {
+				for (int j = 1; j <= m; ++j) {
 					grades[i][j] = sc.nextInt();
 				}
 			}
