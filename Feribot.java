@@ -17,7 +17,7 @@ public class Feribot {
 	 * @param maxim greutatea maxima care poate fi pe un feribot
 	 * @return numarul de intervale (feriboturi)
 	 */
-	public static int num_intervals(ArrayList<Long> cars, int N, long maxim) {
+	public static int numFeribots(ArrayList<Long> cars, int N, long maxim) {
 
 		long indx = 0;
 		int j = 0;
@@ -39,20 +39,20 @@ public class Feribot {
 	}
 
 	/**
-	 * Functie pentru repartizarea greutatii in mod relativ egal pe feriboturi (de vazut)
-	 * si aflarea greutatii maxime de pe feriboturi.
+	 * Functie pentru repartizarea greutatii si aflarea greutatii
+	 * maxime de pe feriboturi.
 	 *
 	 * @param cars vectorul cu greutatile masinilor
 	 * @param N    numarul de masini
 	 * @param k    numarul de feriboturi
 	 * @param sum  greutatea maxima care trebuie transportata
 	 * @return greutatea minima
+	 *          -1 daca nu a fost gasita
 	 */
 	public static long find_min_cost(ArrayList<Long> cars, int N, int k, long sum) {
 
 		ArrayList<Long> carsClone;
 		carsClone = (ArrayList<Long>) cars.clone();
-		// pastrez intr-un array vectorul cu greutatile masinilor sortate
 		Collections.sort(carsClone);
 		long max = carsClone.get(N - 1); // greutatea maxima unei masini
 		long left = max;
@@ -64,11 +64,11 @@ public class Feribot {
 			mid = (left + right) / 2;
 
 			// Verific cate intervale se formeaza cu valoarea maxima "mid".
-			int intervals = num_intervals(cars, N, mid);
+			int feribots = numFeribots(cars, N, mid);
 
 			// Numarul intervalelor este prea mic fata de cate feriboturi am.
 			// Inseamna ca numarul "mid" este prea mare.
-			if (intervals <= k) {
+			if (feribots <= k) {
 				right = mid - 1;
 				found = mid;
 			} else {

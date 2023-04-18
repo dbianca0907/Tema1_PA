@@ -61,20 +61,19 @@ public class Nostory {
 	private static long solveTask2(int[] a, int[] b, int moves) {
 		int N = a.length;
 		long sum = 0;
-		int[] maxArr = new int[N]; // construiesc un vector care retine val maxime ale perechilor
+		int[] maxArr = new int[N]; // contine valorile maxime ale perechilor
 		for (int i = 0; i < N; i++) {
 			maxArr[i] = Math.max(a[i], b[i]);
 		}
-
 		Arrays.sort(maxArr);
 
-		// vectorul care o sa contina sirurile concatenate ordonate
-		int[] allNumbers = new int[2 * N];
+		int[] allNumbers = new int[2 * N]; // contine ambele siruri in ordine crescatoare
 		System.arraycopy(a, 0, allNumbers, 0, N);
 		System.arraycopy(b, 0, allNumbers, N, N);
 		Arrays.sort(allNumbers);
-		int j = 0; // de unde incep sa fie schimbate pozitiile minime
-		int cnt = N - 1;
+
+		int j = 0; // index de unde incep sa fie schimbate pozitiile minime
+		int cnt = N - 1; // contor pentru iterarea prin maxArr
 
 		for (int i = 2 * N - 1; i >= 0 && moves > 0 && cnt >= j; i--) {
 			if (allNumbers[i] != maxArr[cnt]) {
