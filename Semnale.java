@@ -11,43 +11,53 @@ class Semnale {
 	Semnale(){}
 
 	static int type1() {
-		int n = x + y; //nr total de biti
-		int[][] a_1 = new int[n + 1][n + 1]; // nr de siruri corecte care se termina in 0
-		int[][] b_1 = new int[n + 1][n + 1]; // nr de siruri corecte care se termina in 1
+		int n = x + y; //nr total de numere
+		// Nr de siruri corecte care se termina in 0.
+		int[][] seq_0 = new int[n + 1][n + 1];
+		// Nr de siruri corecte care se termina in 1.
+		int[][] seq_1 = new int[n + 1][n + 1];
 
-		b_1[1][0] = 1;
-		b_1[1][1] = 1;
-		a_1[1][1] = 1;
+		// Se poate forma un singur sir doar din cifra 1.
+		seq_1[1][0] = 1;
+		// Se poate forma un singur sir numai din zerouri
+		seq_0[1][1] = 1;
 		if (y > n / 2) {
 			return 0;
 		}
 
 		for (int i = 2; i <= n; i++) {
 			int min = Math.min(i, x);
+			// Ma opresc dupa ce calculez numarul de siruri pentru x.
 			for (int j = 1; j <= min; j++) {
 				if (i == j) {
-					a_1[i][j] = 1; // exista un singur sir care se poate forma numai din 0-uri
-					b_1[i][j] = 0; // nu se poate forma niciun sir numai din 1
+					seq_0[i][j] = 1; // exista un singur sir care se poate forma numai din 0-uri
+					seq_1[i][j] = 0; // nu exista niciun sir format numai din 0-uri si sa se termine in 1
 				} else {
-					a_1[i][j] = (a_1[i - 1][j - 1] + b_1[i - 1][j - 1]) % mod;
-					b_1[i][j] = (a_1[i - 1][j]) % mod; // peste 0-urile alea se adauga un 1
+					seq_0[i][j] = (seq_0[i - 1][j - 1] + seq_1[i - 1][j - 1]) % mod;
+					seq_1[i][j] = (seq_0[i - 1][j]) % mod;
 				}
 			}
 		}
-		int rez = (a_1[n][x] + b_1[n][x]) % mod; // de explicat x-ul de aici
+		/* Rezultatul este format din numarul de siruri care se termina in 0 cu x zerouri
+		si numarul de siruri care se termina in 1 care contin x zerouri. */
+		int rez = (seq_0[n][x] + seq_1[n][x]) % mod;
 		return rez;
 	}
 
 	static int type2() {
 		int n = x + y;
 		// Nr de siruri corecte care se termina in 0.
-		int[][] a = new int[n + 1][n + 1];
+		int[][] seq_0 = new int[n + 1][n + 1];
 		// Nr de siruri corecte care se termina in 1.
-		int[][] b = new int[n + 1][n + 1];
+		int[][] seq_1 = new int[n + 1][n + 1];
 
-		b[1][0] = 1;
-		b[2][0] = 1;
-		a[1][1] = 1;
+		// Se poate forma un singur sir cu un singur 1.
+		seq_1[1][0] = 1;
+		// Se poate forma un singur sir cu 2 de 1 ("11").
+		seq_1[2][0] = 1;
+		/* Se poate forma un singur sir cu un 0, care
+		sa se termine in 1. */
+		seq_0[1][1] = 1;
 
 		if (y > 2 * (x + 1)) {
 			return 0;
@@ -55,16 +65,17 @@ class Semnale {
 
 		for (int i = 2; i <= n; i++) {
 			int min = Math.min(i, x);
+			// Ma opresc dupa ce calculez numarul de siruri pentru x.
 			for (int j = 1; j <= min; j++) {
 				if (i == j) {
-					a[i][j] = 1;
+					seq_0[i][j] = 1; // se poate forma un singur sir doar din 0-uri
 				} else {
-					a[i][j] = (a[i - 1][j - 1] + b[i - 1][j - 1]) % mod;
-					b[i][j] = (a[i - 1][j] + a[i - 2][j]) % mod;
+					seq_0[i][j] = (seq_0[i - 1][j - 1] + seq_1[i - 1][j - 1]) % mod;
+					seq_1[i][j] = (seq_0[i - 1][j] + seq_0[i - 2][j]) % mod;
 				}
 			}
 		}
-		int rez = (a[n][x] + b[n][x]) % mod;
+		int rez = (seq_0[n][x] + seq_1[n][x]) % mod;
 		return rez;
 	}
 

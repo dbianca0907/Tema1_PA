@@ -16,7 +16,7 @@ class Sushi {
 	static int task1() {
 		int[] sum_grades = new int[m + 1];
 
-		// Realizez suma notelor pentru fiecare platou, de la fiecare persoana
+		// Realizez suma notelor pentru fiecare platou, de la fiecare persoana.
 		for (int i = 1; i <= m; i++) {
 			for (int j = 1; j <= n; j++) {
 				sum_grades[i] += grades[j][i];
@@ -24,11 +24,10 @@ class Sushi {
 		}
 
 		int[][] dp = new int[m + 1][n * x + 1];
-		//aplic algoritmul rucsac
+		//Aplic recurenta rucsac.
 		for (int i = 1; i <= m; ++i) {
 			for (int price = 0; price <= n * x; ++price) {
 				if (price - prices[i] >= 0) {
-					// de explicat
 					dp[i][price] = Math.max(dp[i - 1][price],
 							dp[i - 1][price - prices[i]] + sum_grades[i]);
 				} else {
@@ -49,8 +48,8 @@ class Sushi {
 		}
 
 		int[][] dp = new int[2 * m + 1][n * x + 1];
-		int[] duplicat_prices = new int[2 * m + 1];
-		int[] duplicat_sum = new int[2 * m + 1];
+		int[] duplicat_prices = new int[2 * m + 1]; // vectorul de preturi duplicat
+		int[] duplicat_sum = new int[2 * m + 1]; // vectorul cu notele maxime ale platourilor duplicat
 
 		System.arraycopy(prices, 1, duplicat_prices, 1, m);
 		System.arraycopy(prices, 1, duplicat_prices, m + 1, m);
@@ -81,8 +80,8 @@ class Sushi {
 		}
 
 		int[][][] dp = new int[2 * m + 1][n * x + 1][n + 1];
-		int[] duplicat_prices = new int[2 * m + 1];
-		int[] duplicat_sum = new int[2 * m + 1];
+		int[] duplicat_prices = new int[2 * m + 1]; // vectorul de preturi duplicat
+		int[] duplicat_sum = new int[2 * m + 1]; // vectorul cu notele maxime ale platourilor duplicat
 
 		System.arraycopy(prices, 1, duplicat_prices, 1, m);
 		System.arraycopy(prices, 1, duplicat_prices, m + 1, m);

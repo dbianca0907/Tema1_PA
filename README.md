@@ -37,8 +37,8 @@ primele N numere, care sunt cele mai mari.
 * Pentru a ma asigura ca o sa calculez suma maxima, in cazul in care am un numar k de mutari, am facut
 urmatoarele:
   * Am retinut intr-un vector "maxArr" cele mai mari valori din fiecare pereche, pe care l-am ordonat
-  crscator.
-  * Am stocat in vectorul "allNumbers" ambele siruri concatenate si ordonate crscator.
+  crescator.
+  * Am stocat in vectorul "allNumbers" ambele siruri concatenate si ordonate crescator.
   * Urmatorul pas a constat in compararea celor mai mari numere din "allNumbers" cu numerele prezente in
   "maxArr", dupa urmatorul exemplu:
   ``` text
@@ -63,3 +63,104 @@ complexitatea este tot de O(N * logN).
 
 
 ## 3. Sushi
+
+### _Implementare_
+
+#### *Task 1*
+* Pentru a rezolva problema, mi-am dat seama ca aceasta este foarte asemanatoare cu problema clasica Rucsac.
+Asa ca, am aplicat recurenta specifica modificand:
+  * greutatea obiectelor, devine in acest caz pretul fiecarui platou
+  * numarul obiectelor, numarul platourilor
+  * profitul fiecarui obiect se transforma in suma notelor acordate fiecarui platou
+* Pentru a rezolva taskul:
+  * am calculat suma notelor fiecarui platou
+  * dp[i][price] = suma maxima a notelor care se poate realiza din "i" obiecte si un pret maxim "price"
+  * in functie de recurenta de mai sus am ajuns la rezultatul final stocat in dp[m][n * x], suma maxima a notelor
+  care se poate obtine comandand un platou din fiecare fel, tinand cont de un pret maxim "n * x"
+
+#### *Task 2*
+
+* Am rezolvat task-ul 2 luand rezolvarea de la task-ul anterior si facandu-i mici modificari. Daca la task-ul 1,
+am realizat recurenta folosind doar maxim un platou din fiecare, pentru a calcula suma maxima a platourilor folosind
+maxim 2 platouri, singurul lucru pe care a trebuit sa-l fac a fost sa duplic vectorii "sum_grades[]", "prices[]" si sa
+ma asigur ca pot lua maxim 2 * m (nr de platouri). Astfel, pentru un pret maxim "n * x", am sa calculez suma maxima a
+notelor, luand in considerare posibilitatea de a alege un platou de 2 ori.
+
+#### *Task 3*
+
+* Task-ul 3 s-a bazat pe rezolvarea anterioara. Pentru a-i adauga constrangerea noua, si anume se pot alege cel mult N
+platouri in total, am transformat vectorul dp intr-un vector tridimensional. Astfel:
+
+```` text
+  - dp[i][price][k] = nota maxima a intregii comenzi pentru i platouri, pretul maxim price
+  si numarul maxim de platouri totale k;
+  - la fiecare pas, dp[i][price][k] va fi egal cu maximul dintre:
+    -- dp[i - 1][price][k] = nota maxima obtinuta cu i - 1 platouri (luate o singura data, ma asigur
+    ca iau in calcul maxim 2 platouri mergand pana la 2 * m si folosind vectorii duplicati), pretul maxim
+    price si selectand k platouri (valoare preluata din iteratia anterioara)
+    -- dp[i - 1][price - duplicat_prices[i]][k - 1] + duplicat_sum[i] = nota maxima obtinuta din cele i - 1
+    platouri, cu un buget maxim egal cu bugetul etapei curente minus pretul platoului i si selectand k - 1
+    platouri, la care se adauga nota platoului curent. Datorita faptului ca vrem sa calculam suma in cazul celor
+    k platouri, in al doilea argument ma raportez la al (k - 1)-lea element
+  - in cazul in care diferenta dintre pretul etapei curente si pretul platoului i este negativa, se preia valoarea
+  de la pasul i - 1
+````
+
+### _Complexitate_
+
+* La task-ul 1, complexitatea este de O(m * n * x)
+* La Task-ul 2, pentru calcularea sumei notelor este o complexitate de O(mn), "System.arraycopy()" are O(m), iar
+ultima pare are o complexitate de O(2 * m * n * x) = O(m * n * x). Deci tot taskul are o complexitate de O(m * n * x)
+* Asemanator ca la 2, doar ca ultima parte are o complexitate de O(m * x * n^2) (complexitatea intregului task)
+
+## 4. Semnale
+
+### _Implementare_
+* Pentru implementarea solutiei am pornit de la reprezentarea sirurilor binare pentru fiecare tip:
+```` text
+  Tipul 1:                    Observatii:
+          000  0000, 0001     -- nu poti realiza un sir daca numarul de cifre de 1 > numarul de cifre de 0
+      00  001  0010           -- numarul de siruri care se termina in 0 de la fiecare etapa este egal
+  0   01  010  0100, 0101     cu numarul total de siruri de la pasul anterior, deoarece indiferent de ultimul numar,
+  1   10  100  1000, 1001     poti pune 0 dupa orice
+          101  1010           -- numarul de siruri care se termina in 1 este egal cu numarul de siruri care se termina
+                              in 0 de la etapa precedenta, deoarece poti pune 1 doar dupa 0
+              
+  Tipul 2:                   
+          000  0000, 0001   Observatii:  
+      00  001  0010, 0011   -- numarul de siruri care se termina in 0 este acelasi ca la primul tip
+  0   01  010  0100, 0101   -- numarul de siruri care se termina in 1 este mult mai mare deoarece se pot permite
+  1   10  100  1000, 1001   2 de 1 consecutivi
+      11  101  1010, 1011
+          110  1100, 1101
+  ````
+* Astfel, recurenta primului tip este deja clara:
+  * avem seq_0[i][j] si seq_1[i][j] = numarul de siruri corecte care contin i numere si j zerouri si se termina in 0,
+  respectiv 1
+  * daca numarul cifrelor de 1 este mai mare decat jumatate din numarul total, inseamna ca nu se pot forma siruri pe
+  baza cerintei
+  * la fiecare etapa, numarul sirurilor care se termina in 0 va fi egal cu numarul total de siruri precedente, adica
+    seq_0[i][j] = (seq_0[i - 1][j - 1] + seq_1[i - 1][j - 1]), iar numarul de sirurilor de 1 va fi numarul sirurilor
+    de 0 de la etapa precedenta: seq_1[i][j] = seq_0[i - 1][j]
+  * la final, returnez suma dintre numarul total de siruri care se termina in 0 si 1 cu restrictia ca pot fi x zerouri
+  in sirul respectiv
+
+* Recurenta celui de al doilea tip este asemanatoare, dar difera calculul sirului de numere care se termina in 1:
+  * pornind de la exemplul de mai sus, observam ca cele doua siruri 1011 si 1101 s-au format din adaugarea unui 1 la 101,
+  respectiv adaugarea unui 1 la 110, iar pe 101 il putem reprezenta drept 10 la care s-a adaugat 1
+  * pe baza a ceea ce am explicat, avem urmatoarea relatie: seq_1[4][1] (1011/1101) = seq_1[3][1] (101) + seq_0[3][1] (110)
+  = seq_0[2][1] (10) + seq_0[3][1] (110) = 1 + 1 = 2
+* De asemenea, nu se poate realiza un sir de acest tip daca numarul de zerouri incremenetat cu 1, depaseste jumatate din
+numarul de cifre 1.
+
+### _Complexitate_
+* Pentru ambele tipuri de siruri, complexitatea este de O((x + y)^2).
+
+
+## Referinte
+* https://ocw.cs.pub.ro/courses/pa/laboratoare/laborator-03
+
+  
+  
+  
+  
