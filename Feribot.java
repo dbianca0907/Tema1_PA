@@ -47,7 +47,7 @@ public class Feribot {
 	 * @param k    numarul de feriboturi
 	 * @param sum  greutatea maxima care trebuie transportata
 	 * @return greutatea minima
-	 *          -1 daca nu a fost gasita
+	 *         -1 daca nu a fost gasita
 	 */
 	public static long find_min_cost(ArrayList<Long> cars, int N, int k, long sum) {
 

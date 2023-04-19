@@ -49,7 +49,7 @@ class Sushi {
 
 		int[][] dp = new int[2 * m + 1][n * x + 1];
 		int[] duplicat_prices = new int[2 * m + 1]; // vectorul de preturi duplicat
-		int[] duplicat_sum = new int[2 * m + 1]; // vectorul cu notele maxime ale platourilor duplicat
+		int[] duplicat_sum = new int[2 * m + 1]; // vectorul cu notele platourilor duplicat
 
 		System.arraycopy(prices, 1, duplicat_prices, 1, m);
 		System.arraycopy(prices, 1, duplicat_prices, m + 1, m);
@@ -81,7 +81,7 @@ class Sushi {
 
 		int[][][] dp = new int[2 * m + 1][n * x + 1][n + 1];
 		int[] duplicat_prices = new int[2 * m + 1]; // vectorul de preturi duplicat
-		int[] duplicat_sum = new int[2 * m + 1]; // vectorul cu notele maxime ale platourilor duplicat
+		int[] duplicat_sum = new int[2 * m + 1]; // vectorul cu notelele platourilor duplicat
 
 		System.arraycopy(prices, 1, duplicat_prices, 1, m);
 		System.arraycopy(prices, 1, duplicat_prices, m + 1, m);

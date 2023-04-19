@@ -30,8 +30,10 @@ class Semnale {
 			// Ma opresc dupa ce calculez numarul de siruri pentru x.
 			for (int j = 1; j <= min; j++) {
 				if (i == j) {
-					seq_0[i][j] = 1; // exista un singur sir care se poate forma numai din 0-uri
-					seq_1[i][j] = 0; // nu exista niciun sir format numai din 0-uri si sa se termine in 1
+					// Exista un singur sir care se poate forma numai din 0-uri.
+					seq_0[i][j] = 1;
+					// Nu exista niciun sir format numai din 0-uri si sa se termine in 1.
+					seq_1[i][j] = 0;
 				} else {
 					seq_0[i][j] = (seq_0[i - 1][j - 1] + seq_1[i - 1][j - 1]) % mod;
 					seq_1[i][j] = (seq_0[i - 1][j]) % mod;
@@ -65,7 +67,6 @@ class Semnale {
 
 		for (int i = 2; i <= n; i++) {
 			int min = Math.min(i, x);
-			// Ma opresc dupa ce calculez numarul de siruri pentru x.
 			for (int j = 1; j <= min; j++) {
 				if (i == j) {
 					seq_0[i][j] = 1; // se poate forma un singur sir doar din 0-uri
@@ -75,6 +76,8 @@ class Semnale {
 				}
 			}
 		}
+		/* Rezultatul este format din numarul de siruri care se termina in 0 cu x zerouri
+		si numarul de siruri care se termina in 1 care contin x zerouri. */
 		int rez = (seq_0[n][x] + seq_1[n][x]) % mod;
 		return rez;
 	}

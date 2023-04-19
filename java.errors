@@ -1,5 +1,2 @@
 Starting audit...
-[WARN] /home/dbianca0907/Desktop/Tema1_PA/./Semnale.java:33: Line is longer than 100 characters (found 105). [LineLength]
-[WARN] /home/dbianca0907/Desktop/Tema1_PA/./Sushi.java:52: Line is longer than 100 characters (found 102). [LineLength]
-[WARN] /home/dbianca0907/Desktop/Tema1_PA/./Sushi.java:84: Line is longer than 100 characters (found 102). [LineLength]
 Audit done.

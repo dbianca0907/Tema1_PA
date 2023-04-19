@@ -21,7 +21,7 @@ valoarea maxima a greutatii unei masini si suma tuturor greutatilor masinilor.
 
 * Functia "num_intervals()" are o complexitate de O(N), unde N este numarul de masini.
 * In functia "fin_min_cost", functia "Collections.sort()" are O(N * logN), iar algoritmul
-binary search are O(logN).
+binary search are O(logN). Deci complexitatea este de O(N * logN).
 
 
 # 2. Nostory
@@ -57,7 +57,7 @@ urmatoarele:
 
 ### _Complexitate_
 * In cazul taskului 1, sortarea are o complexitate de O(N * log N), iar modul in care se construieste suma
-O(N / 2), deci task-ul 1 are o complexitate de O(N * logN).
+O(N), deci task-ul 1 are o complexitate de O(N * logN).
 * In cazul taskului 2, la fel ca la taskul 1, sortarea are O(N * log N), iar cele 2 for-uri au O(N), deci
 complexitatea este tot de O(N * logN).
 
@@ -159,6 +159,7 @@ numarul de cifre 1.
 
 ## Referinte
 * https://ocw.cs.pub.ro/courses/pa/laboratoare/laborator-03
+* https://ocw.cs.pub.ro/courses/pa/laboratoare/laborator-04
 
   
   
